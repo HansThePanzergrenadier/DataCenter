@@ -18,7 +18,7 @@ namespace DataCenter
             {
                 foreach(Link el in Ports)
                 {
-                    Device device = el.getOtherDevice(this);
+                    Device device = el.GetOtherDevice(this);
                     if(device.DeviceType != "Router")
                     {
                         AvailableDevices.Add(device);
@@ -31,6 +31,14 @@ namespace DataCenter
 
                 return AvailableDevices;
             }
+        }
+
+        public void ConnectToDevice(Device OtherDevice, int linkBandwidth)
+        {
+            Device[] devices = { this, OtherDevice };
+            Link NewLink = new Link(devices, linkBandwidth);
+            Ports.Add(NewLink);
+            OtherDevice.Ports.Add(NewLink);
         }
     }
 }

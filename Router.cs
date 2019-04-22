@@ -11,6 +11,7 @@ namespace DataCenter
         public Router(int bandwidth)
         {
             Bandwidth = bandwidth;
+            Ports = new List<Link>();
             DeviceType = "Router";
         }
     }

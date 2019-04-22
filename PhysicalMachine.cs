@@ -6,18 +6,34 @@ using System.Threading.Tasks;
 
 namespace DataCenter
 {
-    class PhysicalMachine : Device
+    class PhysicalMachine : ComputingDevice
     {
-        List<VirtualMachine> VirtualMachines;
-        public int Speed { get; set; }
-        public int Memory { get; set; }
-        List<DTTask> TaskQueue;
+        public List<VirtualMachine> VirtualMachines = new List<VirtualMachine>();
 
-        public PhysicalMachine(int speed, int memory)
+        public PhysicalMachine(int speed, int memory, int bandwidth)
         {
             Speed = speed;
             Memory = memory;
+            AvailableSpeed = Speed;
+            AvailableMemory = Memory;
+            Ports = new List<Link>();            
+            Bandwidth = bandwidth;
             DeviceType = "PhysicalMachine";
+        }
+
+        public int AvailableSpeed { get; set; }
+        public int AvailableMemory { get; set; }
+
+        public void CreateVirtualMachine(int speed, int memory)
+        {
+            if(speed <= AvailableSpeed && memory <= AvailableMemory)
+            {
+                VirtualMachines.Add(new VirtualMachine(this, speed, memory));
+            }
+            else
+            {
+                throw new Exception("Not enough resources for new VM");
+            }
         }
 
         public int GetLoad
@@ -40,9 +56,15 @@ namespace DataCenter
             }
         }
 
-        void GiveTask()
+        public override void AssignTask(DTTask dTTask)
         {
-            //
+            TaskQueue.Add(dTTask);
         }
+
+        public override void AssignTasks(List<DTTask> dTTasks)
+        {
+            TaskQueue.AddRange(dTTasks);
+        }
+
     }
 }
