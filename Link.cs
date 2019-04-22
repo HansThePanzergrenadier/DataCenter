@@ -11,7 +11,7 @@ namespace DataCenter
         public int Bandwidth { get; set; }
         private Device[] Devices = new Device[2];
 
-        public Device getOtherDevice(Device currentDevice)
+        public Device GetOtherDevice(Device currentDevice)
         {
             Device result = null;
 
@@ -33,6 +33,12 @@ namespace DataCenter
             }
 
             return result;
+        }
+
+        public Link(Device[] devices, int bandwidth)
+        {
+            Bandwidth = bandwidth;
+            Devices = devices;
         }
     }
 }
