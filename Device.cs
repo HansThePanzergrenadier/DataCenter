@@ -8,29 +8,35 @@ namespace DataCenter
 {
     abstract class Device
     {
-        public int Bandwidth { get; set; }
-        public List<Link> Ports { get; set; }
+        public List<Link> Ports = new List<Link>();
         public string DeviceType = null;
 
         public List<Device> AvailableDevices
         {
             get
             {
-                foreach(Link el in Ports)
+                AvailableDevices = null;
+
+                if (Ports.LongCount() != 0)
                 {
-                    Device device = el.GetOtherDevice(this);
-                    if(device.DeviceType != "Router")
+                    foreach (Link el in Ports)
                     {
-                        AvailableDevices.Add(device);
-                    }
-                    else if(device.DeviceType == "Router")
-                    {
-                        AvailableDevices.AddRange(device.AvailableDevices);
+                        Device device = el.GetOtherDevice(this);
+                        if (device.DeviceType == "PhysicalMachine")
+                        {
+                            AvailableDevices.Add(device);
+                        }
+                        else if (device.DeviceType != "PhysicalMachine")
+                        {
+                            AvailableDevices.AddRange(device.AvailableDevices);
+                        }
                     }
                 }
 
                 return AvailableDevices;
             }
+
+            private set { AvailableDevices = value; }
         }
 
         public void ConnectToDevice(Device OtherDevice, int linkBandwidth)

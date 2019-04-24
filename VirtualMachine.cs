@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace DataCenter
 {
-    class VirtualMachine : ComputingDevice
+    class VirtualMachine
     {
-        public VirtualMachine(PhysicalMachine host, int speed, int memory)
+        public List<DTTask> TaskQueue { get; set; }
+        public int Speed { get; set; }
+
+        public VirtualMachine(PhysicalMachine host, int speed)
         {
             Host = host;
             Speed = speed;
-            Memory = memory;
             CurrentTask = null;
         }
 
@@ -57,12 +59,12 @@ namespace DataCenter
             }
         }
 
-        public override void AssignTask(DTTask dTTask)
+        public void AssignTask(DTTask dTTask)
         {
             TaskQueue.Add(dTTask);
         }
 
-        public override void AssignTasks(List<DTTask> dTTasks)
+        public void AssignTasks(List<DTTask> dTTasks)
         {
             TaskQueue.AddRange(dTTasks);
         }
