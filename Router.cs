@@ -8,9 +8,8 @@ namespace DataCenter
 {
     class Router : Device
     {
-        public Router(int bandwidth)
+        public Router()
         {
-            Bandwidth = bandwidth;
             Ports = new List<Link>();
             DeviceType = "Router";
         }
