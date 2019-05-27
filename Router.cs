@@ -8,10 +8,12 @@ namespace DataCenter
 {
     class Router : Device
     {
-        public Router()
+        public Router(Figure figure)
         {
+            figure.Owner = this;
+            Figure = figure;
             Ports = new List<Link>();
-            DeviceType = "Router";
+            DeviceType = DeviceTypes.Router;
         }
     }
 }

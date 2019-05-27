@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataCenter
 {
-    class Link
+    public class Link
     {
+        public LineConnect Line { get; set; }
         public int Bandwidth { get; set; }
-        private Device[] Devices = new Device[2];
+        public Device[] Devices = new Device[2];
 
         public Device GetOtherDevice(Device currentDevice)
         {
@@ -35,10 +36,13 @@ namespace DataCenter
             return result;
         }
 
-        public Link(Device[] devices, int bandwidth)
+        public Link(Device[] devices, int bandwidth, LineConnect line)
         {
+            Line = line;
             Bandwidth = bandwidth;
             Devices = devices;
+            Controller.getInstance().Links.Add(this);
+            line.Owner = this;
         }
     }
 }

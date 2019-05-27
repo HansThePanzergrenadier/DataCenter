@@ -8,7 +8,6 @@ namespace DataCenter
 {
     class VirtualMachine
     {
-        public List<DTTask> TaskQueue { get; set; }
         public int Speed { get; set; }
 
         public VirtualMachine(PhysicalMachine host, int speed)
@@ -18,56 +17,44 @@ namespace DataCenter
             CurrentTask = null;
         }
 
-        public PhysicalMachine Host
-        {
-            get
-            {
-                return Host;
-            }
+        public PhysicalMachine Host { set; get; }
 
-            private set
-            {
-                Host = value;
-            }
-        }
+        public DTTask CurrentTask { set; get; }
 
-        public DTTask CurrentTask
-        {
-            get
-            {
-                return CurrentTask;
-            }
 
-            private set
-            {
-                CurrentTask = value;
-            }
-        }
-        
-        public bool IsBusy
+        //public bool IsBusy 
+        //{
+        //    get
+        //    {
+        //        if (CurrentTask != null)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
+
+        public void DoTask()
         {
-            get
+            if(CurrentTask == null || CurrentTask.Volume <= 0)
             {
-                if(CurrentTask != null)
+                if (Host.TaskQueue.Count > 0)
                 {
-                    return true;
+                    CurrentTask = Host.TaskQueue[0];
+                    Host.TaskQueue.RemoveAt(0);
                 }
                 else
                 {
-                    return false;
+                    CurrentTask = null;
                 }
             }
+            else if (CurrentTask.Volume > 0)
+            {
+                CurrentTask.Volume -= Speed;
+            }
         }
-
-        public void AssignTask(DTTask dTTask)
-        {
-            TaskQueue.Add(dTTask);
-        }
-
-        public void AssignTasks(List<DTTask> dTTasks)
-        {
-            TaskQueue.AddRange(dTTasks);
-        }
-
     }
 }

@@ -8,11 +8,11 @@ namespace DataCenter
 {
     abstract class ComputingDevice : Device
     {
-        public List<DTTask> TaskQueue { get; set; }
-        public int Speed { get; set; }
-        public int Memory { get; set; }
+        public List<DTTask> TaskQueue = new List<DTTask>();
+        public int Speed { get; set; } //speed - what volume of a task will be done for 1 tick
+        public int Memory { get; set; } //memory - how much tasks it can store
         
-        abstract public void AssignTask(DTTask dTTask);
-        abstract public void AssignTasks(List<DTTask> dTTasks);
+        abstract public void AssignTask(DTTask dTTask, PhysicalMachine Donor);
+        //abstract public void AssignTasks(List<DTTask> dTTasks, PhysicalMachine Donor);
     }
 }
